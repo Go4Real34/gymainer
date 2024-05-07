@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="main.py" />
     <Compile Include="structures\DatasetHandler.py" />
+    <Compile Include="structures\Model.py" />
     <Compile Include="structures\__init__.py">
       <SubType>Code</SubType>
     </Compile>
