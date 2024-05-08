@@ -2,7 +2,9 @@ class ModelSettings:
     def __init__(self, 
                  dataset_path, 
                  dataset_sequence_length, 
-                 dataset_label_count, 
+                 dataset_resize_width, 
+                 dataset_resize_height, 
+                 dataset_color_channels, 
                  dataset_validation_ratio, 
                  dataset_test_ratio, 
                  
@@ -22,13 +24,21 @@ class ModelSettings:
                  early_stopping_callback_modes, 
                  early_stopping_callback_restore_best_weights, 
                  
-                 compile_loss, 
-                 compile_optimizer, 
-                 compile_metrics):
+                 compiling_loss, 
+                 compiling_optimizer, 
+                 compiling_metrics, 
+                 
+                 training_epochs, 
+                 training_batch_size, 
+                 training_shuffle, 
+                 
+                 statistics_graph_size):
         
         self.dataset_path = dataset_path
         self.dataset_sequence_length = dataset_sequence_length
-        self.dataset_label_count = dataset_label_count
+        self.dataset_resize_width = dataset_resize_width
+        self.dataset_resize_height = dataset_resize_height
+        self.dataset_color_channels = dataset_color_channels
         self.dataset_validation_ratio = dataset_validation_ratio
         self.dataset_test_ratio = dataset_test_ratio
         
@@ -48,20 +58,33 @@ class ModelSettings:
         self.early_stopping_callback_modes = early_stopping_callback_modes
         self.early_stopping_callback_restore_best_weights = early_stopping_callback_restore_best_weights
         
-        self.compile_loss = compile_loss
-        self.compile_optimizer = compile_optimizer
-        self.compile_metrics = compile_metrics
+        self.compiling_loss = compiling_loss
+        self.compiling_optimizer = compiling_optimizer
+        self.compiling_metrics = compiling_metrics
+
+        self.training_epochs = training_epochs
+        self.training_batch_size = training_batch_size
+        self.training_shuffle = training_shuffle
+        
+        self.statistics_graph_size = statistics_graph_size
         
         return
     
+
     def get_dataset_path(self):
         return self.dataset_path
     
     def get_dataset_sequence_length(self):
         return self.dataset_sequence_length
     
-    def get_dataset_label_count(self, layer):
-        return self.dataset_label_count
+    def get_dataset_resize_width(self):
+        return self.dataset_resize_width
+    
+    def get_dataset_resize_height(self):
+        return self.dataset_resize_height
+    
+    def get_dataset_color_channels(self):
+        return self.dataset_color_channels
     
     def get_dataset_validation_ratio(self):
         return self.dataset_validation_ratio
@@ -91,7 +114,7 @@ class ModelSettings:
     def get_model_pool_size(self, layer):
         return self.model_pool_sizes[layer]
     
-    def get_model_paddings(self, layer):
+    def get_model_padding(self, layer):
         return self.model_paddings[layer]
     
     def get_model_dropout(self, layer):
@@ -114,12 +137,25 @@ class ModelSettings:
         return self.early_stopping_callback_restore_best_weights[index]
     
 
-    def get_compile_loss(self):
-        return self.compile_loss
+    def get_compiling_loss(self):
+        return self.compiling_loss
     
-    def get_compile_optimizer(self):
-        return self.compile_optimizer
+    def get_compiling_optimizer(self):
+        return self.compiling_optimizer
     
-    def get_compile_metrics(self):
-        return self.compile_metrics
+    def get_compiling_metrics(self):
+        return self.compiling_metrics
+    
+
+    def get_training_epochs(self):
+        return self.training_epochs
+    
+    def get_training_batch_size(self):
+        return self.training_batch_size
+    
+    def get_training_shuffle(self):
+        return self.training_shuffle
+
+    def get_statistics_graph_size(self):
+        return self.statistics_graph_size
     

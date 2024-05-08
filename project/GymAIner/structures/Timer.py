@@ -19,17 +19,17 @@ class Timer:
         
         time_string = ""
         if hours > 0:
-            time_string += f"{hours} hour{'s' if hours > 1 else ''}"
+            time_string += f"{hours} hour{'s' if hours > 1 else ''} "
             
         if minutes > 0:
-            time_string += f"{minutes} minute{'s' if minutes > 1 else ''}"
+            time_string += f"{minutes} minute{'s' if minutes > 1 else ''} "
             
         if seconds > 0:
-            time_string += f"{seconds} second{'s' if seconds > 1 else ''}"
+            time_string += f"{seconds} second{'s' if seconds > 1 else ''} "
             
         if milliseconds > 0:
             time_string += f"{milliseconds} millisecond{'s' if milliseconds > 1 else ''}"
-
+            
         return time_string
     
     def get_elapsed_time(self):
