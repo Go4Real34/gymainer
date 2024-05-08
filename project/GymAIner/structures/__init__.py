@@ -1,3 +1,3 @@
 from .DatasetHandler import DatasetHandler
-from .Model import Model
+from .ConvLTSMModel import ConvLTSMModel
 from .ModelSettings import ModelSettings

@@ -6,18 +6,18 @@ from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 
 class DatasetHandler:
-    def __init__(self, dataset_path, validation_ratio, test_ratio):
+    def __init__(self, dataset_path, sequence_length, test_ratio):
+        self.dataset_path = dataset_path
+        self.SEQUENCE_LENGTH = sequence_length
+        self.TEST_RATIO = test_ratio
+        self.COLOR_CHANNELS = 3
+        
         self.RESIZE_WIDTH = 64
         self.RESIZE_HEIGHT = 64
         
-        self.dataset_path = dataset_path
-        self.VALIDATION_RATIO = validation_ratio
-        self.TEST_RATIO = test_ratio
-        
         self.video_paths, self.labels, self.videos = self.read_dataset()
         
-        self.X_train, X_validation, self.Y_train, Y_validation = train_test_split(self.videos, self.labels, test_size=self.VALIDATION_RATIO)
-        self.X_validation, self.X_test, self.Y_validation, self.Y_test = train_test_split(X_validation, Y_validation, test_size=self.TEST_RATIO)
+        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.videos, self.labels, test_size=self.TEST_RATIO)
         
         return
     
@@ -62,10 +62,8 @@ class DatasetHandler:
                             pbar_full.update(1)
                                 
                     pbar_folders.update(1)
-
-        numpy_array_labels = np.asarray(numpy_array_labels)
+                    
         categorical_labels = to_categorical(numpy_array_labels)
-
         numpy_array_video_frames = np.asarray(numpy_array_video_frames)
         
         return paths, categorical_labels, numpy_array_video_frames   
@@ -78,10 +76,13 @@ class DatasetHandler:
             return
         
         frame_count = int(video_reader.get(cv2.CAP_PROP_FRAME_COUNT))
+        skip_frames_window = max(int(frame_count / self.SEQUENCE_LENGTH), 1)
         
         with tqdm.tqdm(bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_noinv_fmt}]", 
-                       desc="Reading frames...", unit=" frames", total=frame_count, leave=False) as pbar_frames:
-            for frame_index in range(frame_count):
+                       desc="Reading sequence frames...", unit=" frames", total=self.SEQUENCE_LENGTH, leave=False) as pbar_frames:
+            for frame_index in range(self.SEQUENCE_LENGTH):
+                video_reader.set(cv2.CAP_PROP_POS_FRAMES, (frame_index * skip_frames_window))
+                
                 success, frame = video_reader.read()
             
                 if frame is None:
@@ -101,8 +102,6 @@ class DatasetHandler:
     
     def process_frame(self, frame):
         resized_frame = cv2.resize(frame, (self.RESIZE_WIDTH, self.RESIZE_HEIGHT))
-        gray_scaled_image = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2GRAY)
-        equalized_image = cv2.equalizeHist(gray_scaled_image)
-        normalized_frame = equalized_image / 255.0
+        normalized_frame = resized_frame / 255.0
         return normalized_frame
     
