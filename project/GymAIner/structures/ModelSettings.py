@@ -13,7 +13,13 @@ class ModelSettings:
                  pool_sizes, 
                  paddings, 
                  dropouts, 
-                 label_count):
+                 label_count, 
+                 
+                 early_stopping_callback_count, 
+                 early_stopping_callback_monitors, 
+                 early_stopping_callback_patiences, 
+                 early_stopping_callback_modes, 
+                 early_stopping_callback_restore_best_weights):
         
         self.dataset_path = dataset_path
         self.sequence_length = sequence_length
@@ -29,6 +35,12 @@ class ModelSettings:
         self.paddings = paddings
         self.dropouts = dropouts
         self.label_count = label_count
+        
+        self.early_stopping_callback_count = early_stopping_callback_count
+        self.early_stopping_callback_monitors = early_stopping_callback_monitors
+        self.early_stopping_callback_patiences = early_stopping_callback_patiences
+        self.early_stopping_callback_modes = early_stopping_callback_modes
+        self.early_stopping_callback_restore_best_weights = early_stopping_callback_restore_best_weights
         
         return
     
@@ -73,4 +85,19 @@ class ModelSettings:
     
     def get_label_count(self, layer):
         return self.label_count
+    
+    def get_early_stopping_callback_count(self):
+        return self.early_stopping_callback_count
+    
+    def get_early_stopping_callback_monitors(self, index):
+        return self.early_stopping_callback_monitors[index]
+    
+    def get_early_stopping_callback_patiences(self, index):
+        return self.early_stopping_callback_patiences[index]
+
+    def get_early_stopping_callback_modes(self, index):
+        return self.early_stopping_callback_modes[index]
+    
+    def get_early_stopping_callback_restore_best_weights(self, index):
+        return self.early_stopping_callback_restore_best_weights[index]
     
