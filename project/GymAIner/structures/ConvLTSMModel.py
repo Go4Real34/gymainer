@@ -35,7 +35,11 @@ class ConvLTSMModel:
                                           early_stopping_callback_monitors=self.settings["early_stopping"]["monitors"], 
                                           early_stopping_callback_patiences=self.settings["early_stopping"]["patiences"], 
                                           early_stopping_callback_modes=self.settings["early_stopping"]["modes"], 
-                                          early_stopping_callback_restore_best_weights=self.settings["early_stopping"]["restore_best_weights"])
+                                          early_stopping_callback_restore_best_weights=self.settings["early_stopping"]["restore_best_weights"], 
+                                          
+                                          compile_loss=self.settings["compile"]["loss"], 
+                                          compile_optimizer=self.settings["compile"]["optimizer"], 
+                                          compile_metrics=self.settings["compile"]["metrics"])
         
         self.dataset_handler = DatasetHandler(self.all_settings.get_dataset_path(), 
                                               self.all_settings.get_dataset_sequence_length(), 
@@ -43,6 +47,9 @@ class ConvLTSMModel:
         
         self.model = self.create_model()
         self.early_stopping_callbacks = self.create_early_stopping_callbacks()
+        self.model.compile(loss=self.all_settings.get_compile_loss(), 
+                           optimizer=self.all_settings.get_compile_optimizer(), 
+                           metrics=self.all_settings.get_compile_metrics())
         
         return
     

@@ -20,7 +20,11 @@ class ModelSettings:
                  early_stopping_callback_monitors, 
                  early_stopping_callback_patiences, 
                  early_stopping_callback_modes, 
-                 early_stopping_callback_restore_best_weights):
+                 early_stopping_callback_restore_best_weights, 
+                 
+                 compile_loss, 
+                 compile_optimizer, 
+                 compile_metrics):
         
         self.dataset_path = dataset_path
         self.dataset_sequence_length = dataset_sequence_length
@@ -43,6 +47,10 @@ class ModelSettings:
         self.early_stopping_callback_patiences = early_stopping_callback_patiences
         self.early_stopping_callback_modes = early_stopping_callback_modes
         self.early_stopping_callback_restore_best_weights = early_stopping_callback_restore_best_weights
+        
+        self.compile_loss = compile_loss
+        self.compile_optimizer = compile_optimizer
+        self.compile_metrics = compile_metrics
         
         return
     
@@ -104,4 +112,14 @@ class ModelSettings:
     
     def get_early_stopping_callback_restore_best_weights(self, index):
         return self.early_stopping_callback_restore_best_weights[index]
+    
+
+    def get_compile_loss(self):
+        return self.compile_loss
+    
+    def get_compile_optimizer(self):
+        return self.compile_optimizer
+    
+    def get_compile_metrics(self):
+        return self.compile_metrics
     
