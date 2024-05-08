@@ -1,5 +1,8 @@
 from .DatasetHandler import DatasetHandler
-from .ModelSettings import ModelSettings
+
 from .Timer import Timer
+
+from .ConvLTSMModelSettings import ConvLTSMModelSettings
 from .ConvLTSMModel import ConvLTSMModel
+
 from .LRCNModel import LRCNModel

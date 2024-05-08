@@ -1,4 +1,4 @@
-class ModelSettings:
+class ConvLTSMModelSettings:
     def __init__(self, 
                  dataset_path, 
                  dataset_sequence_length, 

@@ -13,7 +13,7 @@ from keras.callbacks import EarlyStopping
 
 
 from .DatasetHandler import DatasetHandler
-from .ModelSettings import ModelSettings
+from .ConvLTSMModelSettings import ConvLTSMModelSettings
 from .Timer import Timer
 
 
@@ -36,39 +36,39 @@ class ConvLTSMModel:
     
 
     def init(self):
-        self.all_settings = ModelSettings(dataset_path=self.settings["dataset"]["path"], 
-                                          dataset_sequence_length=self.settings["dataset"]["sequence_length"], 
-                                          dataset_resize_width=self.settings["dataset"]["resize_width"], 
-                                          dataset_resize_height=self.settings["dataset"]["resize_height"], 
-                                          dataset_color_channels=self.settings["dataset"]["color_channels"], 
-                                          dataset_validation_ratio=self.settings["dataset"]["validation_ratio"], 
-                                          dataset_test_ratio=self.settings["dataset"]["test_ratio"], 
-                                          
-                                          model_filter_counts=self.settings["model"]["filter_counts"], 
-                                          model_kernel_sizes=self.settings["model"]["kernel_sizes"], 
-                                          model_activations=self.settings["model"]["activations"], 
-                                          model_data_formats=self.settings["model"]["data_formats"], 
-                                          model_recurrent_dropouts=self.settings["model"]["recurrent_dropouts"], 
-                                          model_return_sequences=self.settings["model"]["return_sequences"], 
-                                          model_pool_sizes=self.settings["model"]["pool_sizes"], 
-                                          model_paddings=self.settings["model"]["paddings"], 
-                                          model_dropouts=self.settings["model"]["dropouts"], 
-                                          
-                                          early_stopping_callback_count=self.settings["early_stopping"]["count"], 
-                                          early_stopping_callback_monitors=self.settings["early_stopping"]["monitors"], 
-                                          early_stopping_callback_patiences=self.settings["early_stopping"]["patiences"], 
-                                          early_stopping_callback_modes=self.settings["early_stopping"]["modes"], 
-                                          early_stopping_callback_restore_best_weights=self.settings["early_stopping"]["restore_best_weights"], 
-                                          
-                                          compiling_loss=self.settings["compiling"]["loss"], 
-                                          compiling_optimizer=self.settings["compiling"]["optimizer"], 
-                                          compiling_metrics=self.settings["compiling"]["metrics"], 
-                                          
-                                          training_epochs=self.settings["training"]["epochs"], 
-                                          training_batch_size=self.settings["training"]["batch_size"], 
-                                          training_shuffle=self.settings["training"]["shuffle"], 
-                                          
-                                          statistics_graph_size=self.settings["statistics"]["graph_size"])
+        self.all_settings = ConvLTSMModelSettings(dataset_path=self.settings["dataset"]["path"], 
+                                                  dataset_sequence_length=self.settings["dataset"]["sequence_length"], 
+                                                  dataset_resize_width=self.settings["dataset"]["resize_width"], 
+                                                  dataset_resize_height=self.settings["dataset"]["resize_height"], 
+                                                  dataset_color_channels=self.settings["dataset"]["color_channels"], 
+                                                  dataset_validation_ratio=self.settings["dataset"]["validation_ratio"], 
+                                                  dataset_test_ratio=self.settings["dataset"]["test_ratio"], 
+                                                  
+                                                  model_filter_counts=self.settings["model"]["filter_counts"], 
+                                                  model_kernel_sizes=self.settings["model"]["kernel_sizes"], 
+                                                  model_activations=self.settings["model"]["activations"], 
+                                                  model_data_formats=self.settings["model"]["data_formats"], 
+                                                  model_recurrent_dropouts=self.settings["model"]["recurrent_dropouts"], 
+                                                  model_return_sequences=self.settings["model"]["return_sequences"], 
+                                                  model_pool_sizes=self.settings["model"]["pool_sizes"], 
+                                                  model_paddings=self.settings["model"]["paddings"], 
+                                                  model_dropouts=self.settings["model"]["dropouts"], 
+                                                  
+                                                  early_stopping_callback_count=self.settings["early_stopping"]["count"], 
+                                                  early_stopping_callback_monitors=self.settings["early_stopping"]["monitors"], 
+                                                  early_stopping_callback_patiences=self.settings["early_stopping"]["patiences"], 
+                                                  early_stopping_callback_modes=self.settings["early_stopping"]["modes"], 
+                                                  early_stopping_callback_restore_best_weights=self.settings["early_stopping"]["restore_best_weights"], 
+                                                  
+                                                  compiling_loss=self.settings["compiling"]["loss"], 
+                                                  compiling_optimizer=self.settings["compiling"]["optimizer"], 
+                                                  compiling_metrics=self.settings["compiling"]["metrics"], 
+                                                  
+                                                  training_epochs=self.settings["training"]["epochs"], 
+                                                  training_batch_size=self.settings["training"]["batch_size"], 
+                                                  training_shuffle=self.settings["training"]["shuffle"], 
+                                                  
+                                                  statistics_graph_size=self.settings["statistics"]["graph_size"])
         
         self.dataset_handler = DatasetHandler(self.all_settings.get_dataset_path(), 
                                               self.all_settings.get_dataset_sequence_length(), 
