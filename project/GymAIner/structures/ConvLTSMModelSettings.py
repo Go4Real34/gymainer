@@ -25,7 +25,7 @@ class ConvLTSMModelSettings:
                  early_stopping_callback_restore_best_weights, 
                  
                  compiling_loss, 
-                 compiling_optimizer, 
+                 compiling_learning_rate, 
                  compiling_metrics, 
                  
                  training_epochs, 
@@ -59,7 +59,7 @@ class ConvLTSMModelSettings:
         self.early_stopping_callback_restore_best_weights = early_stopping_callback_restore_best_weights
         
         self.compiling_loss = compiling_loss
-        self.compiling_optimizer = compiling_optimizer
+        self.compiling_learning_rate = compiling_learning_rate
         self.compiling_metrics = compiling_metrics
 
         self.training_epochs = training_epochs
@@ -140,8 +140,8 @@ class ConvLTSMModelSettings:
     def get_compiling_loss(self):
         return self.compiling_loss
     
-    def get_compiling_optimizer(self):
-        return self.compiling_optimizer
+    def get_compiling_learning_rate(self):
+        return self.compiling_learning_rate
     
     def get_compiling_metrics(self):
         return self.compiling_metrics

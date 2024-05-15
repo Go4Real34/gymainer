@@ -255,7 +255,6 @@ class LRCNModel:
                                  self.dataset_handler.COLOR_CHANNELS))
         
         model.summary()
-        
         return model
     
     def create_early_stopping_callbacks(self):

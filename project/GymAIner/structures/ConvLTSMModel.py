@@ -10,6 +10,7 @@ from keras.models import Sequential
 from keras.layers import ConvLSTM2D, MaxPooling3D, TimeDistributed, Dropout, Flatten, Dense
 from keras.utils import plot_model
 from keras.callbacks import EarlyStopping
+from keras.optimizers import Adam
 
 
 from .DatasetHandler import DatasetHandler
@@ -61,7 +62,7 @@ class ConvLTSMModel:
                                                   early_stopping_callback_restore_best_weights=self.settings["early_stopping"]["restore_best_weights"], 
                                                   
                                                   compiling_loss=self.settings["compiling"]["loss"], 
-                                                  compiling_optimizer=self.settings["compiling"]["optimizer"], 
+                                                  compiling_learning_rate=self.settings["compiling"]["learning_rate"], 
                                                   compiling_metrics=self.settings["compiling"]["metrics"], 
                                                   
                                                   training_epochs=self.settings["training"]["epochs"], 
@@ -81,7 +82,7 @@ class ConvLTSMModel:
         self.model = self.create_model()
         self.training_callbacks = self.create_early_stopping_callbacks()
         self.model.compile(loss=self.all_settings.get_compiling_loss(), 
-                           optimizer=self.all_settings.get_compiling_optimizer(), 
+                           optimizer=Adam(learning_rate=self.all_settings.get_compiling_learning_rate()), 
                            metrics=self.all_settings.get_compiling_metrics())
         
         return
@@ -106,7 +107,7 @@ class ConvLTSMModel:
                                                    epochs=self.all_settings.get_training_epochs(), 
                                                    batch_size=self.all_settings.get_training_batch_size(), 
                                                    shuffle=self.all_settings.get_training_shuffle(), 
-                                                   validation_split=self.all_settings.get_dataset_validation_ratio(), 
+                                                   validation_data=(self.dataset_handler.X_validation, self.dataset_handler.Y_validation), 
                                                    callbacks=self.training_callbacks)
         self.timer.stop()
         print("Model trained succesfully.")
@@ -165,7 +166,7 @@ class ConvLTSMModel:
 
     def save(self):
         loss, accuracy = self.evaluation_history
-        print("Accuracy: {:.2f}, {:.2f}%".format((accuracy * 100), (loss * 100)))")
+        print("Accuracy: {:.2f}, Loss: {:.2f}%".format((accuracy * 100), (loss * 100)))
 
         time_format = "%d_%m_%Y__%H_%M_%S"
         current_date_time = dt.datetime.now()
@@ -266,7 +267,6 @@ class ConvLTSMModel:
                         activation=self.all_settings.get_model_activation(4)))
 
         model.summary()
-        
         return model
     
     def create_early_stopping_callbacks(self):
