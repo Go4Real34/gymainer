@@ -23,11 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="main.py" />
-    <Compile Include="structures\ConvLTSMModelSettings.py" />
     <Compile Include="structures\DatasetHandler.py" />
-    <Compile Include="structures\ConvLTSMModel.py" />
-    <Compile Include="structures\LRCNModel.py" />
-    <Compile Include="structures\LRCNModelSettings.py" />
     <Compile Include="structures\Timer.py" />
     <Compile Include="structures\__init__.py">
       <SubType>Code</SubType>
