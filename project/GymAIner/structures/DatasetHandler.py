@@ -2,6 +2,7 @@ import os
 import cv2
 import tqdm
 import numpy as np
+import pickle
 
 from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
@@ -10,12 +11,13 @@ from sklearn.preprocessing import LabelEncoder
 from .Timer import Timer
 
 class DatasetHandler:
-    def __init__(self, dataset_path, sequence_length, resize_width, resize_height, color_channels, test_ratio):
+    def __init__(self, dataset_path, sequence_length, resize_width, resize_height, color_channels, validation_ratio, test_ratio):
         self.DATASET_PATH = dataset_path
         self.SEQUENCE_LENGTH = sequence_length
         self.RESIZE_WIDTH = resize_width
         self.RESIZE_HEIGHT = resize_height
         self.COLOR_CHANNELS = color_channels
+        self.VALIDATION_RATIO = validation_ratio
         self.TEST_RATIO = test_ratio
         
         self.timer = Timer()
@@ -25,12 +27,48 @@ class DatasetHandler:
 
     def init(self):
         self.labeled_video_paths, self.labels, self.videos, self.included_video_paths = self.read_dataset()
-        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.videos, self.labels, test_size=self.TEST_RATIO, shuffle=True)
         
+        self.X_train, self.X_validation, self.Y_train, self.Y_validation = train_test_split(self.videos, self.labels, test_size=self.VALIDATION_RATIO, shuffle=True)
+        self.X_validation, self.X_test, self.Y_validation, self.Y_test = train_test_split(self.X_validation, self.Y_validation, test_size=self.TEST_RATIO, shuffle=True)
+        
+        self.X_train = np.asarray(self.X_train)
+        self.X_validation = np.asarray(self.X_validation)
+        self.X_test = np.asarray(self.X_test)
+        
+        label_encoder = LabelEncoder()
+        y_tr = label_encoder.fit_transform(self.Y_train)
+        y_va = label_encoder.fit_transform(self.Y_validation)
+        y_te = label_encoder.fit_transform(self.Y_test)
+        self.Y_train = to_categorical(y_tr)
+        self.Y_validation = to_categorical(y_va)
+        self.Y_test = to_categorical(y_te)
+
+
         return
     
         
     def read_dataset(self):
+        if os.path.exists('preparation/tagged_paths.pkl') and os.path.exists('preparation/labels.pkl') \
+            and os.path.exists('preparation/videos.pkl') and os.path.exists('preparation/included_video_paths.pkl'):
+            
+            print("Loading dataset from saved files...", end="\n\n")
+            
+            with open('preparation/tagged_paths.pkl', 'rb') as f:
+                tagged_paths = pickle.load(f)
+                
+            with open('preparation/included_video_paths.pkl', 'rb') as f:
+                included_video_paths = pickle.load(f)
+                
+            with open('preparation/labels.pkl', 'rb') as f:
+                labels = pickle.load(f)
+                
+            with open('preparation/videos.pkl', 'rb') as f:
+                video_frames = pickle.load(f)
+                            
+            print("Dataset loaded successfully.", end="\n\n")
+            
+            return tagged_paths, labels, video_frames, included_video_paths
+        
         tagged_paths = {}
         categories = os.listdir(self.DATASET_PATH)
         for category in categories:
@@ -46,7 +84,7 @@ class DatasetHandler:
         labels = []
         video_frames = []
         included_video_paths = []
-
+        
         print("Please wait while the program reads the dataset...", end="\n\n")
         
         self.timer.start()
@@ -84,13 +122,22 @@ class DatasetHandler:
         time_elapsed = self.timer.get_formatted_time()
         print(f"Dataset read in {time_elapsed}.", end="\n\n")
         
-        label_encoder = LabelEncoder()
-        integer_labels = label_encoder.fit_transform(labels)
-        categorical_labels = to_categorical(integer_labels)
-        
-        numpy_array_video_frames = np.asarray(video_frames)
-        
-        return tagged_paths, categorical_labels, numpy_array_video_frames, included_video_paths
+        if not os.path.exists('preparation'):
+            os.mkdir('preparation')
+            
+        with open('preparation/tagged_paths.pkl', 'wb') as f:
+            pickle.dump(tagged_paths, f, protocol=4)
+
+        with open('preparation/included_video_paths.pkl', 'wb') as f:
+            pickle.dump(included_video_paths, f, protocol=4)
+            
+        with open('preparation/labels.pkl', 'wb') as f:
+            pickle.dump(labels, f, protocol=4)
+            
+        with open('preparation/videos.pkl', 'wb') as f:
+            pickle.dump(video_frames, f, protocol=4)
+            
+        return tagged_paths, labels, video_frames, included_video_paths
 
 
     def read_video(self, video_path):
