@@ -25,6 +25,7 @@
     <Compile Include="main.py" />
     <Compile Include="structures\DatasetHandler.py" />
     <Compile Include="structures\LTSM.py" />
+    <Compile Include="structures\LSTM_ModelSettings.py" />
     <Compile Include="structures\Timer.py" />
     <Compile Include="structures\__init__.py" />
   </ItemGroup>
