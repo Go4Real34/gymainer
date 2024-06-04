@@ -175,6 +175,13 @@ class DatasetHandler:
 
     def process_frame(self, frame):
         resized_frame = cv2.resize(frame, (self.RESIZE_WIDTH, self.RESIZE_HEIGHT))
-        normalized_frame = resized_frame / 255.0
+        
+        if self.COLOR_CHANNELS == 1:
+            gray_scaled_image = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2GRAY)
+            normalized_frame = gray_scaled_image / 255.0
+            
+        else:
+            normalized_frame = resized_frame / 255.0
+            
         return normalized_frame
     
