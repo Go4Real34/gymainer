@@ -24,10 +24,9 @@
   <ItemGroup>
     <Compile Include="main.py" />
     <Compile Include="structures\DatasetHandler.py" />
+    <Compile Include="structures\LTSM.py" />
     <Compile Include="structures\Timer.py" />
-    <Compile Include="structures\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="structures\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="venv\">
@@ -42,6 +41,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="structures\" />
+    <Folder Include="structures\__pycache__\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="structures\__pycache__\ConvLTSMModel.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\ConvLTSMModelSettings.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\DatasetHandler.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\LRCNModel.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\LRCNModelSettings.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\LTSM.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\Model.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\ModelSettings.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\Timer.cpython-37.pyc" />
+    <Content Include="structures\__pycache__\__init__.cpython-37.pyc" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
