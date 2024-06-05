@@ -42,6 +42,7 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="templates\" />
     <Folder Include="structures\" />
     <Folder Include="structures\__pycache__\" />
   </ItemGroup>
@@ -56,6 +57,7 @@
     <Content Include="structures\__pycache__\ModelSettings.cpython-37.pyc" />
     <Content Include="structures\__pycache__\Timer.cpython-37.pyc" />
     <Content Include="structures\__pycache__\__init__.cpython-37.pyc" />
+    <Content Include="templates\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
