@@ -1,47 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyzing Video</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #000;
-            color: #fff;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GYMAINER</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                background-color: #000;
+                color: #fff;
+            }
 
-        #video-player {
-            width: 600px;
-            height: 600px;
-        }
-    </style>
-</head>
-<body>
-    <h1>ANALYZING YOUR VIDEO!</h1>
-    <video id="video-player" controls style="display: none;">
-        <source id="video-source" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <p id="exercise-name">This exercise is named as: analyzing video...</p>
-    <p id="accuracy-rate">Accuracy Rate: analyzing video...</p>
+            button {
+                margin: 10px;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
 
-    <script>
-        window.onload = function () {
-            fetch('/get_analysis')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('video-player').style.display = 'block';
-                    document.getElementById('video-source').src = data.video_path;
-                    document.getElementById('video-player').load();
-                    document.getElementById('exercise-name').innerText = `This exercise is named as: ${data.value}`;
-                    document.getElementById('accuracy-rate').innerText = `Accuracy Rate: ${data.value2}`;
-                });
-        }
-    </script>
-</body>
+            #load-model {
+                background-color: red;
+                color: white;
+            }
+
+            #select-video {
+                background-color: blue;
+                color: white;
+            }
+
+            #upload {
+                background-color: green;
+                color: white;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <h1>WELCOME TO GYMAINER!</h1>
+    
+        <button id="load-model" onclick="loadModel()">Load Model</button>
+        <p id="model-status">Please load model first.</p>
+    
+        <p>Please select a video to analyze.</p>
+        <input type="file" id="video-input" accept="video/*" style="display: none;" onchange="displaySelectedVideo()">
+        <button id="select-video" onclick="document.getElementById('video-input').click()">Select Video</button>
+        <p id="selected-video" style="display: none;">Selected Video: <span id="video-path"></span></p>
+
+        <button id="upload" onclick="uploadVideo()">Upload</button>
+
+        <script>
+            function loadModel() {
+                document.getElementById('model-status').innerText = "Loading model...";
+                fetch('/load_model')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('model-status').innerText = data.status;
+                    });
+            }
+
+            function displaySelectedVideo() {
+                const videoInput = document.getElementById('video-input');
+                const videoPath = document.getElementById('video-path');
+                const selectedVideo = document.getElementById('selected-video');
+                if (videoInput.files.length > 0) {
+                    videoPath.innerText = videoInput.files[0].name;
+                    selectedVideo.style.display = 'block';
+                }
+            }
+
+            function uploadVideo() {
+                const videoInput = document.getElementById('video-input');
+                if (videoInput.files.length > 0) {
+                    const formData = new FormData();
+                    formData.append('video', videoInput.files[0]);
+
+                    fetch('/upload_video', {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = '/results.html';
+                            } else {
+                                alert('Failed to upload video.');
+                            }
+                        });
+                } else {
+                    alert('Please select a video first.');
+                }
+            }
+        </script>
+    </body>
 </html>

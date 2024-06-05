@@ -1,11 +1,69 @@
 <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Analyzing Video</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                background-color: #000;
+                color: #fff;
+            }
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
+            #video-player {
+                width: 600px;
+                height: 600px;
+            }
 
-</body>
+            #back-to-main-menu {
+                display: none;
+                margin-top: 20px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1 id="status">ANALYZING YOUR VIDEO...</h1>
+        <video id="video-player" controls style="display: none;">
+            <source id="video-source" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <p id="exercise-name"></p>
+        <p id="accuracy-rate"></p>
+
+        <button id="back-to-main-menu">Make Another Analysis</button>
+
+        <script>
+            window.onload = function () {
+                fetch('/get_analysis')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('video-player').style.display = 'block';
+                        document.getElementById('video-source').src = data.video_path;
+                        document.getElementById('video-player').load();
+                        document.getElementById('exercise-name').innerText = `This exercise is named as: ${data.class_name}`;
+                        document.getElementById('accuracy-rate').innerText = `Accuracy Rate: ${data.accuracy}`;
+                        document.getElementById('status').innerText = `ANALYSIS COMPLETE!`;
+
+                        document.getElementById('back-to-main-menu').style.display = 'block';
+                    });
+            }
+
+            document.getElementById('back-to-main-menu').addEventListener('click', function () {
+                window.location.href = '/';
+            });
+        </script>
+    </body>
 </html>
