@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 import datetime as dt
 import numpy as np
 
-
 from .LSTM_ModelSettings import LSTM_ModelSettings
 from .DatasetHandler import DatasetHandler
 from .Timer import Timer

@@ -20,7 +20,6 @@ from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-
 from .Timer import Timer
 
 class DatasetHandler:

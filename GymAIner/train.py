@@ -1,6 +1,5 @@
 import os
 
-
 from structures import LSTM_Model
 
 def train_lstm_model():
