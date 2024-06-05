@@ -23,19 +23,25 @@ from sklearn.preprocessing import LabelEncoder
 from .Timer import Timer
 
 class DatasetHandler:
-    def __init__(self, dataset_path, sequence_length, resize_width, resize_height, color_channel_count, validation_ratio, test_ratio):
-        self.DATASET_PATH = dataset_path
-        self.SEQUENCE_LENGTH = sequence_length
-        self.RESIZE_WIDTH = resize_width
-        self.RESIZE_HEIGHT = resize_height
-        self.COLOR_CHANNEL_COUNT = color_channel_count
-        self.VALIDATION_RATIO = validation_ratio
-        self.TEST_RATIO = test_ratio
+    def __init__(self, is_training, dataset_path, sequence_length, resize_width, resize_height, color_channel_count, validation_ratio, test_ratio):
+        if is_training:
+            self.DATASET_PATH = dataset_path
+            self.SEQUENCE_LENGTH = sequence_length
+            self.RESIZE_WIDTH = resize_width
+            self.RESIZE_HEIGHT = resize_height
+            self.COLOR_CHANNEL_COUNT = color_channel_count
+            self.VALIDATION_RATIO = validation_ratio
+            self.TEST_RATIO = test_ratio
         
-        self.timer = Timer()
-        
+            self.timer = Timer()
+            
+        else:
+            self.SEQUENCE_LENGTH = sequence_length
+            self.RESIZE_WIDTH = resize_width
+            self.RESIZE_HEIGHT = resize_height
+            self.COLOR_CHANNEL_COUNT = color_channel_count
+            
         return
-    
 
     def init(self):
         self.labeled_video_paths, self.labels, self.videos, self.included_video_paths = self.read_dataset()
@@ -183,7 +189,6 @@ class DatasetHandler:
                 pbar_frames.update(1)
                 
         video_reader.release()
-        
         return self.get_mean_std_frame(frames)
     
     def get_mean_std_frame(self, frames):

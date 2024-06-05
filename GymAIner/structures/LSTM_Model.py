@@ -19,6 +19,7 @@ from keras.utils import plot_model
 import matplotlib.pyplot as plt
 import datetime as dt
 import numpy as np
+import shutil
 
 from .LSTM_ModelSettings import LSTM_ModelSettings
 from .DatasetHandler import DatasetHandler
@@ -71,7 +72,8 @@ class LSTM_Model:
                                                
                                                statistics_graph_size=self.settings["statistics"]["graph_size"])
         
-        self.dataset_handler = DatasetHandler(self.all_settings.get_dataset_path(),
+        self.dataset_handler = DatasetHandler(True,
+                                              self.all_settings.get_dataset_path(),
                                               self.all_settings.get_dataset_sequence_length(),
                                               self.all_settings.get_dataset_resize_width(),
                                               self.all_settings.get_dataset_resize_height(),
@@ -195,6 +197,19 @@ class LSTM_Model:
         exact_model_plot_path = os.path.abspath(model_plot_path)
         print(f"Model File Saved to {exact_model_save_path}")
         print(f"Model Plot Saved to {exact_model_plot_path}", end="\n\n")
+        
+        option = input("Do you want to replace this file with model.h5? (Y/N):")
+        if option.lower() == "y":
+            if os.path.exists("model.h5"):
+                os.remove("model.h5")
+            
+            shutil.copy(exact_model_save_path, "model.h5")
+                
+        elif option.lower() == 'n':
+            return
+
+        else:
+            print("Invalid option. Model is not replaced. Please do it manually.", end="\n\n")
         
         return
     
