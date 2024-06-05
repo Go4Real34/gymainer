@@ -198,7 +198,7 @@ class LSTM_Model:
         print(f"Model File Saved to {exact_model_save_path}")
         print(f"Model Plot Saved to {exact_model_plot_path}", end="\n\n")
         
-        option = input("Do you want to replace this file with model.h5? (Y/N):")
+        option = input("Do you want to replace this file with model.h5? (Y/N): ")
         if option.lower() == "y":
             if os.path.exists("model.h5"):
                 os.remove("model.h5")

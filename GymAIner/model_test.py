@@ -124,9 +124,13 @@ def get_analysis():
 def uploaded_video(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+
 def launch_website():
     app.run(debug=True)
     
+    return
+
+
 def main():
     launch_website()
     
