@@ -1,11 +1,47 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyzing Video</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+        }
+
+        #video-player {
+            width: 600px;
+            height: 600px;
+        }
+    </style>
 </head>
 <body>
+    <h1>ANALYZING YOUR VIDEO!</h1>
+    <video id="video-player" controls style="display: none;">
+        <source id="video-source" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <p id="exercise-name">This exercise is named as: analyzing video...</p>
+    <p id="accuracy-rate">Accuracy Rate: analyzing video...</p>
 
+    <script>
+        window.onload = function () {
+            fetch('/get_analysis')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('video-player').style.display = 'block';
+                    document.getElementById('video-source').src = data.video_path;
+                    document.getElementById('video-player').load();
+                    document.getElementById('exercise-name').innerText = `This exercise is named as: ${data.value}`;
+                    document.getElementById('accuracy-rate').innerText = `Accuracy Rate: ${data.value2}`;
+                });
+        }
+    </script>
 </body>
 </html>

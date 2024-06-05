@@ -58,6 +58,7 @@
     <Content Include="structures\__pycache__\Timer.cpython-37.pyc" />
     <Content Include="structures\__pycache__\__init__.cpython-37.pyc" />
     <Content Include="templates\index.html" />
+    <Content Include="templates\results.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
