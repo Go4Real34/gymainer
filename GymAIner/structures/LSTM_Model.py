@@ -43,6 +43,8 @@ class LSTM_Model:
     def init(self):
         self.all_settings = LSTM_ModelSettings(dataset_path=self.settings["dataset"]["dataset_path"],
                                                dataset_sequence_length=self.settings["dataset"]["sequence_length"],
+                                               dataset_original_width=self.settings["dataset"]["original_width"],
+                                               dataset_original_height=self.settings["dataset"]["original_height"],
                                                dataset_resize_width=self.settings["dataset"]["resize_width"],
                                                dataset_resize_height=self.settings["dataset"]["resize_height"],
                                                dataset_color_channels=self.settings["dataset"]["color_channels"],
@@ -75,6 +77,8 @@ class LSTM_Model:
         self.dataset_handler = DatasetHandler(True,
                                               self.all_settings.get_dataset_path(),
                                               self.all_settings.get_dataset_sequence_length(),
+                                              self.all_settings.get_dataset_original_width(),
+                                              self.all_settings.get_dataset_original_height(),
                                               self.all_settings.get_dataset_resize_width(),
                                               self.all_settings.get_dataset_resize_height(),
                                               self.all_settings.get_dataset_color_channel_count(),

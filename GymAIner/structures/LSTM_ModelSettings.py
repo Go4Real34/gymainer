@@ -2,6 +2,8 @@ class LSTM_ModelSettings:
     def __init__(self,
                  dataset_path,
                  dataset_sequence_length,
+                 dataset_original_width,
+                 dataset_original_height,
                  dataset_resize_width,
                  dataset_resize_height,
                  dataset_color_channels,
@@ -33,6 +35,8 @@ class LSTM_ModelSettings:
         
         self.DATASET_PATH = dataset_path
         self.DATASET_SEQUENCE_LENGTH = dataset_sequence_length
+        self.DATASET_ORIGINAL_WIDTH = dataset_original_width
+        self.DATASET_ORIGINAL_HEIGHT = dataset_original_height
         self.DATASET_RESIZE_WIDTH = dataset_resize_width
         self.DATASET_RESIZE_HEIGHT = dataset_resize_height
         self.DATASET_COLOR_CHANNELS = dataset_color_channels
@@ -70,6 +74,12 @@ class LSTM_ModelSettings:
     
     def get_dataset_sequence_length(self):
         return self.DATASET_SEQUENCE_LENGTH
+    
+    def get_dataset_original_width(self):
+        return self.DATASET_ORIGINAL_WIDTH
+    
+    def get_dataset_original_height(self):
+        return self.DATASET_ORIGINAL_HEIGHT
     
     def get_dataset_resize_width(self):
         return self.DATASET_RESIZE_WIDTH

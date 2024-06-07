@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template, send_from_directory,
 import os
 import numpy as np
 from keras.models import load_model
-import cv2
+from model_train import settings
 
 from structures import DatasetHandler
 
@@ -106,7 +106,16 @@ def get_analysis():
 
     video_path = os.path.join(app.config['UPLOAD_FOLDER'], 'uploaded_video.mp4')
 
-    dataset_handler = DatasetHandler(False, None, 75, 128, 128, 1, None, None)
+    dataset_handler = DatasetHandler(False,
+                                     None,
+                                     settings["dataset"]["sequence_length"],
+                                     settings["dataset"]["original_width"],
+                                     settings["dataset"]["original_height"],
+                                     settings["dataset"]["resize_width"],
+                                     settings["dataset"]["resize_height"],
+                                     settings["dataset"]["color_channels"],
+                                     None,
+                                     None)
     frames = dataset_handler.read_video(video_path)
     frames = np.expand_dims(np.array(frames), axis=0)
     predictions = model.predict(frames)

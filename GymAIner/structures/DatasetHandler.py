@@ -23,10 +23,12 @@ from sklearn.preprocessing import LabelEncoder
 from .Timer import Timer
 
 class DatasetHandler:
-    def __init__(self, is_training, dataset_path, sequence_length, resize_width, resize_height, color_channel_count, validation_ratio, test_ratio):
+    def __init__(self, is_training, dataset_path, sequence_length, original_width, original_height, resize_width, resize_height, color_channel_count, validation_ratio, test_ratio):
         if is_training:
             self.DATASET_PATH = dataset_path
             self.SEQUENCE_LENGTH = sequence_length
+            self.ORIGINAL_WIDTH = original_width
+            self.ORIGINAL_HEIGHT = original_height
             self.RESIZE_WIDTH = resize_width
             self.RESIZE_HEIGHT = resize_height
             self.COLOR_CHANNEL_COUNT = color_channel_count
@@ -37,6 +39,8 @@ class DatasetHandler:
             
         else:
             self.SEQUENCE_LENGTH = sequence_length
+            self.ORIGINAL_WIDTH = original_width
+            self.ORIGINAL_HEIGHT = original_height
             self.RESIZE_WIDTH = resize_width
             self.RESIZE_HEIGHT = resize_height
             self.COLOR_CHANNEL_COUNT = color_channel_count
